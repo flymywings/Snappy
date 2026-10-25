@@ -1,4 +1,4 @@
-# Snappy 0.5.0
+# Snappy 0.5.1
 
 Free, offline window snapping for Windows. MIT licensed. No account, subscription,
 trial timer, telemetry, or administrator requirement.
@@ -6,6 +6,10 @@ trial timer, telemetry, or administrator requirement.
 [Download Snappy for Windows x64](https://github.com/flymywings/Snappy/releases/latest)
 
 ![Snappy grid panel](verification/panel-preview.png)
+
+0.5.1 fixes repeated “Display configuration changed” failures: snapping refreshes
+the selected monitor's work area and DPI before placement. Disconnected monitors
+and orientation changes still stop placement safely.
 
 ## Appearance
 
@@ -33,7 +37,7 @@ dotnet run --project tools/IconTool -- src/Snappy.Windows/Assets/Snappy-source.p
 The tool removes empty margins and detached generation specks from the export
 viewport, fits the connected artwork uniformly, and retains the master unchanged.
 Older vector concepts are archived in `docs/icon-history/v0.4`; they are no longer
-the active brand source. This release changes icons, not the snapping workflow.
+the active brand source.
 
 ## Open, select window, click to snap
 
@@ -119,19 +123,19 @@ Create the self-contained ZIP and checksum:
 .\build.ps1
 ```
 
-Outputs: `artifacts/Snappy-0.5.0-win-x64.zip`, portable folder, and SHA256SUMS.txt.
+Outputs: `artifacts/Snappy-0.5.1-win-x64.zip`, portable folder, and SHA256SUMS.txt.
 Builds need NuGet access. The finished app works offline. CI tests and packages
 without creating public releases.
 
 Native verification creates only test windows and writes a JSON report and PNGs:
 
 ```powershell
-.\artifacts\Snappy-win-x64\Snappy.exe --self-test "$PWD\verification\native-smoke-v5.json"
+.\artifacts\Snappy-win-x64\Snappy.exe --self-test "$PWD\verification\portable-smoke-v5.1.json"
 ```
 
 `passed: null` means skipped, not successful. The harness drives grid selection
 handlers with logical coordinates; physical pointer and external foreground
-interaction remain manual checks. See `verification/RESULTS-v5.md` and CHECKLIST.md.
+interaction remain manual checks. See `verification/RESULTS-v5.1.md` and CHECKLIST.md.
 
 ## Architecture and limits
 
@@ -143,7 +147,7 @@ simple-grid generation, drag state, placement orchestration, and hotkey staging.
 Windows 10 22H2 and Windows 11 x64 are intended targets. The available native test
 host is Windows 10 with one landscape display; physical portrait/mixed-DPI and
 Windows 11 validation are still outstanding. No public project/trademark clearance,
-hosting deployment, or code signing was performed.
+or code signing was performed.
 
 Cross-platform binaries, automatic tiling, app rules, overlapping zones, and
 shared-divider resizing are outside this release.

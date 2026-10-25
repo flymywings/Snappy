@@ -38,7 +38,7 @@ try {
         }
     }
     if ($copied -lt 2) { throw 'Runtime license notices were not found; refusing to package.' }
-    $zip = Join-Path $OutputDirectory 'Snappy-0.5.0-win-x64.zip'
+    $zip = Join-Path $OutputDirectory 'Snappy-0.5.1-win-x64.zip'
     Compress-Archive -Path (Join-Path $packageDirectory '*') -DestinationPath $zip -Force
     Get-FileHash -LiteralPath $zip -Algorithm SHA256 | ForEach-Object { "$($_.Hash)  $([IO.Path]::GetFileName($zip))" } | Set-Content (Join-Path $OutputDirectory 'SHA256SUMS.txt')
     Write-Output "Portable package: $zip"

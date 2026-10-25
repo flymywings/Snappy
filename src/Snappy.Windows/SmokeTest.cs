@@ -47,8 +47,26 @@ internal static class SmokeTest
                 var handle = new WindowInteropHelper(window).Handle;
                 var initiallyFocused = Native.GetForegroundWindow() == handle;
                 var display = Monitors.ForWindow(handle); var layout = Layouts.Presets()[0];
+                var staleDisplay = display with { WorkArea = display.WorkArea with { Height = display.WorkArea.Height - 40 }, Scale = display.Scale + 0.25 };
+                var currentRegion = layout.Zones[0].Region;
+                var refreshedBounds = Monitors.PlacementBounds(layout, currentRegion, staleDisplay);
+                Check("Placement refreshes stale work area before snapping", refreshedBounds == LayoutEngine.Bounds(layout, currentRegion, display.WorkArea, display.Scale));
+                var gapLayout = layout with { Gap = 8 };
+                Check("Placement uses current DPI for gaps", Monitors.PlacementBounds(gapLayout, currentRegion, staleDisplay) ==
+                    LayoutEngine.Bounds(gapLayout, currentRegion, display.WorkArea, display.Scale));
+                var negativeDisplay = display with { WorkArea = new(-1200, -300, 1200, 1900), Orientation = "Portrait" };
+                Check("Placement refresh retains negative monitor coordinates", Monitors.PlacementBounds(layout, currentRegion,
+                    negativeDisplay with { WorkArea = new(-1200, -300, 1200, 1800) }, [negativeDisplay]) ==
+                    LayoutEngine.Bounds(layout, currentRegion, negativeDisplay.WorkArea, negativeDisplay.Scale));
+                bool RejectDisplay(Display selected, IReadOnlyList<Display> current)
+                {
+                    try { Monitors.PlacementBounds(layout, currentRegion, selected, current); return false; }
+                    catch (InvalidOperationException) { return true; }
+                }
+                Check("Disconnected monitor cannot redirect placement", RejectDisplay(display, [display with { Identity = "Other monitor" }]));
+                Check("Changed orientation cannot reuse stale layout", RejectDisplay(display, [display with { Orientation = "Other orientation" }]));
                 var system = new WindowSystem { AllowOwnWindows = true }; var placement = new PlacementService(system);
-                var target = LayoutEngine.Bounds(layout, layout.Zones[0].Region, display.WorkArea, display.Scale);
+                var target = refreshedBounds;
                 var result = await placement.PlaceAsync(handle, target); await Task.Delay(150);
                 Check("Native top-half placement", result.Success, result.Error);
                 var actual = system.Geometry(handle).Visible;
@@ -158,14 +176,17 @@ internal static class SmokeTest
                 Check("Replacing grid cancels stale selection from prior layout", !staleSelection);
                 grid.Selected -= ObserveSelection; grid.Layout = priorLayout;
                 var lastSnap = new TaskCompletionSource<PlacementResult>(); nint requestedWindow = 0; GridRegion? requestedRegion = null;
+                panel.RefreshDisplays([staleDisplay]);
                 panel.SnapRequested += async (win, selectedLayout, region, selectedDisplay) =>
                 {
                     requestedWindow = win; requestedRegion = region;
-                    var placementResult = await placement.PlaceAsync(win, LayoutEngine.Bounds(selectedLayout, region, selectedDisplay.WorkArea, selectedDisplay.Scale));
+                    var placementResult = await placement.PlaceAsync(win, Monitors.PlacementBounds(selectedLayout, region, selectedDisplay));
                     lastSnap.TrySetResult(placementResult);
                 };
                 grid.BeginSelection(new Point(10, 10)); grid.CompleteSelection(new Point(10, 10));
                 Check("Single cell click places Window A and keeps panel open", (await lastSnap.Task).Success && requestedWindow == handle && panel.IsVisible && requestedRegion == new GridRegion(0, 0, 1, 1));
+                Check("Grid click uses live bounds despite stale monitor cache", Near(system.Geometry(handle).Visible,
+                    LayoutEngine.Bounds(panel.CurrentLayout, requestedRegion!, display.WorkArea, display.Scale)));
                 var second = new Window { Title = "Snappy verification Window B", Width = 500, Height = 300 }; owned.Add(second); second.Show(); await Task.Delay(100);
                 var secondHandle = new WindowInteropHelper(second).Handle;
                 panel.UpdateTarget(secondHandle, "Window B", display); lastSnap = new();

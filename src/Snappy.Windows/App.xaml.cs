@@ -102,13 +102,16 @@ public partial class App : Application
         if (paused || !placing.Add(target)) return;
         try
         {
-            if (!Monitors.All().Any(m => m.Identity == display.Identity && m.Orientation == display.Orientation && m.WorkArea == display.WorkArea))
-            { Notify("Display configuration changed. Try again."); return; }
-            var result = await placement.PlaceAsync(target, LayoutEngine.Bounds(layout, region, display.WorkArea, display.Scale));
+            var bounds = Monitors.PlacementBounds(layout, region, display);
+            var result = await placement.PlaceAsync(target, bounds);
             if (!result.Success) Notify(result.Error!);
             else panel.ShowStatus("");
         }
-        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException) { Notify(ex.Message); }
+        catch (Exception ex) when (ex is ArgumentException or InvalidOperationException)
+        {
+            if (ex is InvalidOperationException) { panel.RefreshDisplays(); tracker.Refresh(true); }
+            Notify(ex.Message);
+        }
         finally { placing.Remove(target); tracker.Refresh(); }
     }
     private void OpenEditor()
@@ -159,7 +162,7 @@ public partial class App : Application
     { drag.Cancel(); panel.RefreshDisplays(); tracker.Refresh(true); editor?.RefreshDisplays(); });
     private void ShowHelp() => MessageBox.Show(
         "Choose rows and columns, click an app window, then click a grid cell.\nDrag across cells for a larger area. The grid stays open.\n\nHold Shift while dragging a window to use saved zones.\nRelease Shift or press Esc to cancel drag snapping.\n\nThe gear opens Advanced settings. Grid changes save automatically.\n" +
-        Ui.KeyName(settings.PickerShortcut) + " shows the grid. Close hides it; tray menu exits.\n\nSnappy 0.5.0 · MIT · Offline · No telemetry", "Snappy · Quick guide");
+        Ui.KeyName(settings.PickerShortcut) + " shows the grid. Close hides it; tray menu exits.\n\nSnappy 0.5.1 · MIT · Offline · No telemetry", "Snappy · Quick guide");
     private void Notify(string text)
     {
         panel?.ShowStatus(text);

@@ -20,5 +20,5 @@ jobs:
         with:
           name: Snappy-win-x64
           path: |
-            artifacts/Snappy-0.5.0-win-x64.zip
+            artifacts/Snappy-0.5.1-win-x64.zip
             artifacts/SHA256SUMS.txt

@@ -10,6 +10,15 @@ internal sealed record Display(nint Handle, string Identity, string Name, string
 
 internal static class Monitors
 {
+    internal static PixelRect PlacementBounds(Layout layout, GridRegion region, Display selected,
+        IReadOnlyList<Display>? connected = null)
+    {
+        var current = (connected ?? All()).FirstOrDefault(m => m.Identity == selected.Identity &&
+            m.Orientation == selected.Orientation);
+        if (current is null)
+            throw new InvalidOperationException("The selected monitor is no longer available in that orientation. Select a monitor and try again.");
+        return LayoutEngine.Bounds(layout, region, current.WorkArea, current.Scale);
+    }
     internal static List<Display> All()
     {
         var displays = new List<Display>();
