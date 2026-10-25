@@ -1,0 +1,18 @@
+{
+  "Source": "Snappy-source.png",
+  "SourceSha256": "33E67569D91167FAF551CDB4C738D42EB051427E8213B9CE98C336E1ACC0F7A4",
+  "SourceType": "approved-raster",
+  "ContentBounds": "209,89,996,932",
+  "UniformScaling": true,
+  "Sizes": [
+    16,
+    20,
+    24,
+    32,
+    40,
+    48,
+    64,
+    128,
+    256
+  ]
+}

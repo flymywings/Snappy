@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Snappy.Core/Snappy.Core.csproj" />
+    <Project Path="src/Snappy.Windows/Snappy.Windows.csproj" />
+  </Folder>
+  <Folder Name="/tests/"><Project Path="tests/Snappy.Tests/Snappy.Tests.csproj" /></Folder>
+</Solution>

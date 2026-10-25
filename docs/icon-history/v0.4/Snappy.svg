@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <title>Snappy — snap tiles</title>
+  <path d="M6 4H26Q28 4 28 6V14H18V19H4V6Q4 4 6 4Z" fill="#F0F1F3" stroke="#525A66" stroke-width="0.75" stroke-linejoin="round"/>
+  <path d="M20 16H28V26Q28 28 26 28H6Q4 28 4 26V21H20Z" fill="#80B3FA" stroke="#525A66" stroke-width="0.75" stroke-linejoin="round"/>
+</svg>

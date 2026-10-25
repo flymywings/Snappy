@@ -1,0 +1,141 @@
+{
+  "passed": true,
+  "os": "Microsoft Windows NT 10.0.19045.0",
+  "checks": [
+    {
+      "name": "Monitor discovery",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Native top-half placement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Visible frame matches target",
+      "passed": true,
+      "detail": "actual=PixelRect { X = 0, Y = 0, Width = 1920, Height = 520, Right = 1920, Bottom = 520 }; target=PixelRect { X = 0, Y = 0, Width = 1920, Height = 520, Right = 1920, Bottom = 520 }"
+    },
+    {
+      "name": "Target focus restored",
+      "passed": null,
+      "detail": "Skipped: this tool-launched process did not obtain foreground permission. Check through a user-triggered picker/hotkey."
+    },
+    {
+      "name": "Minimum size rejected",
+      "passed": true,
+      "detail": "This window\u0027s minimum size is larger than the selected zone."
+    },
+    {
+      "name": "Own overlays excluded from normal placement",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Maximized window restored and placed",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Native hotkey registration",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Native hotkey conflict rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Drag cancellation keyboard hook available",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Overlay is click-through and non-activating",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Display refresh keeps unsaved editor fields",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Picker and editor render",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Non-resizable window rejected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Panel mouse clicks do not activate",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Single cell click places Window A and keeps panel open",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Multi-cell selection places Window B without reopening",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Paused panel rejects snapping",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Missing target disables panel grid",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Row stepper changes and saves active layout immediately",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Panel close hides instead of exiting",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Panel can be revealed again",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Failed grid save retains working grid and reports inline",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Same target crossing monitors refreshes grid geometry",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Relaunch request reaches existing process host",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Relaunch request invokes panel reveal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Unresponsive size query fails within bounded time",
+      "passed": true,
+      "detail": "151 ms; The window did not respond to a size query. No movement was attempted."
+    }
+  ]
+}

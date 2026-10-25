@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType><TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF><UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>disable</ImplicitUsings><ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyName>Snappy</AssemblyName><RootNamespace>Snappy.Windows</RootNamespace>
+    <Version>0.5.0</Version><Authors>Snappy contributors</Authors>
+    <ApplicationIcon>Assets/Snappy.ico</ApplicationIcon>
+    <Description>Free grid and zone window manager.</Description>
+    <!-- WPF owns application startup and DPI via manifest; WinForms is used only for NotifyIcon. -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../Snappy.Core/Snappy.Core.csproj" /></ItemGroup>
+  <ItemGroup><Resource Include="Assets/Snappy.ico" /><Resource Include="Assets/Snappy-256.png" /></ItemGroup>
+</Project>
